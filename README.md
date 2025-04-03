@@ -1,9 +1,5 @@
 # NoiseFiT
 
-NoiseFiT is a command-line tool for training transformer models with adaptive noise injection, implementing the approach described in our preprint **"xxxx"**.
-
-## Overview
-
 This repository provides an implementation of our preprint **"xxxx"**, which introduces a novel method for adaptive noise injection in transformer models. By dynamically injecting noise based on the signal-to-noise ratio (SNR) into specific transformer layers, NoiseFiT aims to mitigate model hallucinated responses.
 
 Key features include:
