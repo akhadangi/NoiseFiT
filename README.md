@@ -13,7 +13,7 @@ Key features include:
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.10+
 - [PyTorch](https://pytorch.org/)
 - [Hugging Face Transformers](https://github.com/huggingface/transformers)
 - [Hugging Face Datasets](https://github.com/huggingface/datasets)
