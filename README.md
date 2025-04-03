@@ -26,6 +26,7 @@ Install the dependencies using pip:
 
 ```bash
 pip install torch transformers datasets peft accelerate wandb trl
+```
 
 ## Usage
 
