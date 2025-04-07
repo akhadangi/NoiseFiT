@@ -208,7 +208,7 @@ if __name__ == '__main__':
     # Model and checkpoint parameters.
     parser.add_argument("--model_id", type=str, default="mistralai/Mistral-7B-v0.1",
                         help="HuggingFace model ID for the base model.")
-    parser.add_argument("--model_path", type=str, default="PEFT_CHECKPOINT",
+    parser.add_argument("--model_path", type=str,
                         help="Path to the PEFT adapter checkpoint (default: PEFT_CHECKPOINT).")
     
     # Data I/O parameters.
