@@ -71,7 +71,7 @@ The inference script performs the following steps:
    - Generates responses with configurable parameters like maximum new tokens, temperature, top-p, top-k, and repetition penalty.
    - Cleans and extracts the generated assistant responses.
 
-4. **Result Aggregation:**  
+4. **Result Gathering:**  
    - Gathers results from all processes and outputs a consolidated CSV file with the generated responses.
 
 ### Command-Line Arguments for Inference
