@@ -91,7 +91,7 @@ The inference script performs the following steps:
 ### Example Command for Inference
 
 ```bash
-python inference_tool.py \
+python Inference.py \
     --model_id "base_model_id" \
     --model_path "path/to/your/PEFT_checkpoint" \
     --input_csv "test_ground_truth.csv" \
