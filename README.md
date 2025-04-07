@@ -50,3 +50,52 @@ The main script is `NoiseFiT.py`, which you can run from the command line. It ac
 python NoiseFiT.py --model gpt2 --train_data train.csv --output_model my_output --batch_size 4 --epochs 5 --hf_token YOUR_HF_TOKEN
 ```
 
+## Inference
+
+In addition to training, we provide an inference script (`Inference.py`) to generate responses from the fine-tuned NoiseFiT models using a PEFT adapter. This script leverages Hugging Face Accelerate for efficient distributed processing and supports customizable generation parameters.
+
+### Inference Script Overview
+
+The inference script performs the following steps:
+
+1. **Model and Tokenizer Loading:**  
+   - Loads a base model (default: `mistralai/Mistral-7B-v0.1`) and its corresponding tokenizer.
+   - Merges a PEFT adapter checkpoint with the base model.
+
+2. **Dataset Partitioning:**  
+   - Reads prompts from an input CSV file (expects a column named `prompt`).
+   - Splits the dataset evenly across available GPUs for parallel processing using Accelerate.
+
+3. **Response Generation:**  
+   - Formats prompts using special tokens to separate user input and the assistant's response.
+   - Generates responses with configurable parameters like maximum new tokens, temperature, top-p, top-k, and repetition penalty.
+   - Cleans and extracts the generated assistant responses.
+
+4. **Result Aggregation:**  
+   - Gathers results from all processes and outputs a consolidated CSV file with the generated responses.
+
+### Command-Line Arguments for Inference
+
+- `--model_id`: Hugging Face model identifier for the base model (default: `mistralai/Mistral-7B-v0.1`).
+- `--model_path`: Path to the PEFT adapter checkpoint.
+- `--input_csv`: CSV file containing the prompts (expects a `prompt` column). Default: `test_ground_truth.csv`.
+- `--output_csv`: Output CSV file name. If not provided, a default name based on the model path is used.
+- `--rounds`: Number of rounds to generate responses per prompt (default: 5).
+- `--max_new_tokens`: Maximum number of new tokens to generate per response (default: 50).
+- `--temperature`: Temperature for sampling (default: 0.5).
+- `--top_p`: Top-p nucleus sampling probability (default: 0.9).
+- `--top_k`: Top-k sampling parameter (default: 40).
+- `--repetition_penalty`: Repetition penalty for generation (default: 1.2).
+- `--hf_token`: Hugging Face authentication token (optional).
+
+### Example Command for Inference
+
+```bash
+python inference_tool.py \
+    --model_id "base_model_id" \
+    --model_path "path/to/your/PEFT_checkpoint" \
+    --input_csv "test_ground_truth.csv" \
+    --output_csv "final_output.csv" \
+    --rounds 5 \
+    --hf_token "YOUR_HF_TOKEN"
+
