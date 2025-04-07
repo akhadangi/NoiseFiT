@@ -1,6 +1,6 @@
 # NoiseFiT
 
-This repository provides an implementation of our preprint **[NoiseFiT](https://arxiv.org/abs/2504.03302)**, which introduces a novel method for adaptive noise injection in transformer models. By dynamically injecting noise based on the signal-to-noise ratio (SNR) into specific transformer layers, NoiseFiT aims to mitigate model hallucinated responses.
+This repository provides an implementation of our preprint **[NoiseFiT](https://arxiv.org/abs/2504.03302)**, which introduces a novel method for adaptive noise injection in transformer models. By dynamically injecting noise based on the signal-to-noise ratio (SNR) into specific transformer layers, NoiseFiT seeks to reduce hallucinated responses in LLMs.
 
 Key features include:
 - **Adaptive Noise Injection:** Dynamically injects noise into transformer layers using token-specific scaling.
