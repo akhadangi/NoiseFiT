@@ -51,11 +51,8 @@ accelerator = Accelerator()
 torch.cuda.set_device(accelerator.local_process_index)
 
 # =============================================================================
-# Data Loading and Preparation
+# Data Preparation
 # =============================================================================
-# Load training data from CSV file
-train_df = pd.read_csv('train.csv')
-
 def formatted_train(input_text: str, response: str) -> str:
     """
     Formats a single training example with user and assistant tokens.
