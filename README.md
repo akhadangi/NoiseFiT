@@ -47,7 +47,13 @@ The main script is `NoiseFiT.py`, which you can run from the command line. It ac
 ## Example Command
 
 ```bash
-python NoiseFiT.py --model gpt2 --train_data train.csv --output_model my_output --batch_size 4 --epochs 5 --hf_token YOUR_HF_TOKEN
+python NoiseFiT.py \
+   --model gpt2 \
+   --train_data "path/to/your/train.csv" \
+   --output_model my_output \
+   --batch_size 4 \
+   --epochs 5 \
+   --hf_token YOUR_HF_TOKEN
 ```
 
 ## Inference
