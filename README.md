@@ -21,7 +21,7 @@ Key features include:
 Install the dependencies using pip:
 
 ```bash
-pip install torch transformers datasets peft accelerate wandb trl
+pip install requirements.txt
 ```
 
 ## Usage
