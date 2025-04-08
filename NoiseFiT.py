@@ -433,6 +433,19 @@ def main():
                         help="Weight for hybrid loss component (default: 0.5).")
     parser.add_argument("--hf_token", type=str, default=None,
                         help="Hugging Face token for login (default: None).")
+    parser.add_argument(
+        "--report_to",
+        default="",
+        choices=["", "wandb", "other"],
+        help="Report the log history to a specific platform. When using 'wandb', pass the API key via --wandb_api_key."
+    )
+    
+    # Define the wandb_api_key argument
+    parser.add_argument(
+        "--wandb_api_key",
+        default=None,
+        help="W&B API key (required if --report_to is 'wandb')."
+    )
     
     args = parser.parse_args()
     
@@ -441,18 +454,23 @@ def main():
         login(token=args.hf_token)
         print("Hugging Face login successful.")
 
+    # Set up WandB
+    if args.report_to == "wandb" and not args.wandb_api_key:
+        parser.error("--wandb_api_key is required when --report_to is set to 'wandb'.")
+    
+    if args.report_to == "wandb" and args.wandb_api_key is not None:
+        wandb.login(key=args.wandb_api_key)
+        os.environ["WANDB_PROJECT"] = args.output_model
+        os.environ["WANDB_LOG_MODEL"] = "checkpoint"
+
     # Load training data
     train_df = pd.read_csv(args.train_data)
     dataset = prepare_train_data(train_df)
     
     # Load model and tokenizer using the provided model id
     model, tokenizer = get_model_and_tokenizer(args.model)
-    
-    # Set up WandB and TrainingArguments
-    wandb.login()
-    os.environ["WANDB_PROJECT"] = args.output_model
-    os.environ["WANDB_LOG_MODEL"] = "checkpoint"
-    
+
+    # Set up training arguments
     training_arguments = TrainingArguments(
         output_dir=args.output_model,
         run_name=args.output_model,
@@ -467,7 +485,7 @@ def main():
         max_steps=args.max_steps,
         fp16=True,
         max_grad_norm=1.0,
-        report_to="wandb"
+        report_to=args.report_to
     )
     
     # Configure PEFT for parameter-efficient fine-tuning
