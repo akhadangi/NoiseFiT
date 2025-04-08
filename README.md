@@ -21,7 +21,7 @@ Key features include:
 Install the dependencies using pip:
 
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Usage
