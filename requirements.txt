@@ -5,3 +5,4 @@ peft==0.15.0
 accelerate==1.5.2
 wandb==0.19.8
 trl==0.15.2
+bitsandbytes==0.45.3
