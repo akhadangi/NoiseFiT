@@ -435,8 +435,8 @@ def main():
                         help="Hugging Face token for login (default: None).")
     parser.add_argument(
         "--report_to",
-        default="",
-        choices=["", "wandb", "other"],
+        default=[],
+        choices=[[], "wandb", "other"],
         help="Report the log history to a specific platform. When using 'wandb', pass the API key via --wandb_api_key."
     )
     
