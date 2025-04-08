@@ -1,0 +1,7 @@
+torch==2.6.0
+transformers==4.50.0
+datasets==3.4.1
+peft==0.15.0
+accelerate==1.5.2
+wandb==0.19.8
+trl==0.15.2
