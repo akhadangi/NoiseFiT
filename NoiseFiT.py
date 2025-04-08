@@ -273,11 +273,6 @@ class NoiseFitTrainer(SFTTrainer):
         batch = next(iter(dataloader))
         batch = {k: v.to(model.device) for k, v in batch.items()}
         
-        # Extract transformer layers
-        layers = list(get_transformer_layers(model))
-        num_layers = len(layers)
-        num_noisy_passes = 10  # Number of noisy forward passes for SNR estimation
-
         with torch.no_grad():
             # Clean forward pass for baseline hidden states
             outputs_clean = model(
@@ -285,14 +280,11 @@ class NoiseFitTrainer(SFTTrainer):
                 attention_mask=batch["attention_mask"],
                 output_hidden_states=True
             )
-            # Exclude input embedding; use subsequent hidden states
-            hidden_clean = outputs_clean.hidden_states[1:]
-            signal_per_layer = [h.abs().mean() for h in hidden_clean]
-
-            # Tensor to accumulate noise differences over multiple passes
-            noise_diff = torch.zeros((num_noisy_passes, len(hidden_clean)), device=model.device)
-
-            # Run multiple forward passes with noise injection
+            num_noisy_passes = 10  # Number of noisy passes for SNR estimation
+            # Prepare a tensor to accumulate noise differences over multiple passes per layer
+            noise_diff = torch.zeros((num_noisy_passes, num_layers), device=model.device)
+    
+            # For each noisy pass, inject noise directly into each hidden state
             for pass_idx in range(num_noisy_passes):
                 for i, h_clean in enumerate(hidden_clean):
                     # Compute a noise standard deviation for this hidden state
@@ -303,7 +295,9 @@ class NoiseFitTrainer(SFTTrainer):
                         base_std=noise_std_hidden,
                         logits=None
                     )
+                    # Compute and store the mean absolute difference between noisy and clean hidden states
                     noise_diff[pass_idx, i] = (h_noisy - h_clean).abs().mean()
+    
             # Average the noise difference for each layer across passes
             avg_noise_diff = noise_diff.mean(dim=0)
             # Compute the SNR for each layer (adding a small constant for stability)
@@ -311,6 +305,7 @@ class NoiseFitTrainer(SFTTrainer):
                 [signal_per_layer[i] / (avg_noise_diff[i] + 1e-6) for i in range(num_layers)],
                 device=model.device
             )
+    
         # Select top k layers based on SNR according to the specified format ("Largest" or not)
         k = self.num_noise_layers
         largest = True if self.snr_format == "Largest" else False
