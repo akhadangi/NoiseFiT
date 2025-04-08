@@ -43,6 +43,8 @@ The main script is `NoiseFiT.py`, which you can run from the command line. It ac
 - `--num_noise_layers`: Number of transformer layers to inject noise into (default: 3).
 - `--hybrid_loss_alpha`: Weight for hybrid loss component (default: 0.5).
 - `--hf_token`: Hugging Face token for login (optional, if model not already in your cache or not download locally).
+- `--report_to`: Report log history to a platform.
+- `--report_api_key`: set API key for the reporting platform as required.
 
 ## Example Command
 
