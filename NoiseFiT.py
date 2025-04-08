@@ -286,46 +286,37 @@ class NoiseFitTrainer(SFTTrainer):
                 output_hidden_states=True
             )
             # Exclude input embedding; use subsequent hidden states
-            hidden_clean = outputs_clean.hidden_states[1:num_layers + 1]
+            hidden_clean = outputs_clean.hidden_states[1:]
             signal_per_layer = [h.abs().mean() for h in hidden_clean]
 
             # Tensor to accumulate noise differences over multiple passes
-            noise_diff = torch.zeros((num_noisy_passes, num_layers), device=model.device)
+            noise_diff = torch.zeros((num_noisy_passes, len(hidden_clean)), device=model.device)
 
             # Run multiple forward passes with noise injection
             for pass_idx in range(num_noisy_passes):
-                input_ids = batch["input_ids"]
-                input_embeds = model.get_input_embeddings()(input_ids)
-                # Scale noise standard deviation based on input embeddings
-                noise_std_input = self.noise_std * input_embeds.std().item()
-                noisy_input_embeds = adaptive_noise_injection(
-                    input_embeds,
-                    base_std=noise_std_input * self.noise_std,
-                    logits=None
-                )
-                outputs_noisy = model(
-                    inputs_embeds=noisy_input_embeds,
-                    attention_mask=batch["attention_mask"],
-                    output_hidden_states=True
-                )
-                hidden_noisy = outputs_noisy.hidden_states[1:num_layers + 1]
-                # Calculate mean absolute difference for each layer
-                for i, (h_noisy, h_clean) in enumerate(zip(hidden_noisy, hidden_clean)):
+                for i, h_clean in enumerate(hidden_clean):
+                    # Compute a noise standard deviation for this hidden state
+                    noise_std_hidden = self.noise_std * h_clean.std().item()
+                    # Inject adaptive noise directly to the hidden state
+                    h_noisy = adaptive_noise_injection(
+                        h_clean,
+                        base_std=noise_std_hidden,
+                        logits=None
+                    )
                     noise_diff[pass_idx, i] = (h_noisy - h_clean).abs().mean()
-
-            # Average noise across passes and compute SNR per layer
+            # Average the noise difference for each layer across passes
             avg_noise_diff = noise_diff.mean(dim=0)
+            # Compute the SNR for each layer (adding a small constant for stability)
             snr = torch.tensor(
                 [signal_per_layer[i] / (avg_noise_diff[i] + 1e-6) for i in range(num_layers)],
                 device=model.device
             )
-
-        # Select k layers based on SNR
+        # Select top k layers based on SNR according to the specified format ("Largest" or not)
         k = self.num_noise_layers
         largest = True if self.snr_format == "Largest" else False
         _, indices = torch.topk(snr, k, largest=largest)
         self.selected_layer_indices = indices.tolist()
-
+    
         print(f"Selected layers for noise injection (SNR based): {self.selected_layer_indices}")
         print(f"SNR values of selected layers: {snr[self.selected_layer_indices]}")
 
