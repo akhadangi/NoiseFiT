@@ -280,6 +280,11 @@ class NoiseFitTrainer(SFTTrainer):
                 attention_mask=batch["attention_mask"],
                 output_hidden_states=True
             )
+            # Exclude the input embeddings (index 0) and use all transformer layer hidden states
+            hidden_clean = outputs_clean.hidden_states[1:]
+            num_layers = len(hidden_clean)
+            signal_per_layer = [h.abs().mean() for h in hidden_clean]
+        
             num_noisy_passes = 10  # Number of noisy passes for SNR estimation
             # Prepare a tensor to accumulate noise differences over multiple passes per layer
             noise_diff = torch.zeros((num_noisy_passes, num_layers), device=model.device)
