@@ -437,14 +437,14 @@ def main():
         "--report_to",
         default=[],
         choices=[[], "wandb", "other"],
-        help="Report the log history to a specific platform. When using 'wandb', pass the API key via --wandb_api_key."
+        help="Report the log history to a specific platform. When using, pass the API key via --report_api_key."
     )
     
-    # Define the wandb_api_key argument
+    # Define the report_api_key argument
     parser.add_argument(
-        "--wandb_api_key",
+        "--report_api_key",
         default=None,
-        help="W&B API key (required if --report_to is 'wandb')."
+        help="Reporting platform API key (required if --report_to is enabled)."
     )
     
     args = parser.parse_args()
@@ -455,11 +455,11 @@ def main():
         print("Hugging Face login successful.")
 
     # Set up WandB
-    if args.report_to == "wandb" and not args.wandb_api_key:
-        parser.error("--wandb_api_key is required when --report_to is set to 'wandb'.")
+    if args.report_to == "wandb" and not args.report_api_key:
+        parser.error("--report_api_key is required when --report_to is set to 'wandb'.")
     
-    if args.report_to == "wandb" and args.wandb_api_key is not None:
-        wandb.login(key=args.wandb_api_key)
+    if args.report_to == "wandb" and args.report_api_key is not None:
+        wandb.login(key=args.report_api_key)
         os.environ["WANDB_PROJECT"] = args.output_model
         os.environ["WANDB_LOG_MODEL"] = "checkpoint"
 
