@@ -48,12 +48,12 @@ The main script is `NoiseFiT.py`, which you can run from the command line. It ac
 
 ```bash
 python NoiseFiT.py \
-   --model gpt2 \
+   --model "meta-llama/Llama-3.2-1B" \
    --train_data "dataset/train.csv" \
-   --output_model my_output \
+   --output_model "my_output" \
    --batch_size 4 \
    --epochs 5 \
-   --hf_token YOUR_HF_TOKEN
+   --hf_token "YOUR_HF_TOKEN"
 ```
 
 ## Inference
@@ -98,7 +98,7 @@ The inference script performs the following steps:
 
 ```bash
 python Inference.py \
-    --model_id "base_model_id" \
+    --model_id "meta-llama/Llama-3.2-1B" \
     --model_path "path/to/your/PEFT_checkpoint" \
     --input_csv "dataset/test_ground_truth.csv" \
     --output_csv "final_output.csv" \
