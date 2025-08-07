@@ -103,8 +103,8 @@ def evaluate_zero_shot(gen, tokenizer, dataset) -> float:
         # Strip away prompt from the generated text
         generated = out[len(prompt) :].strip()
 
-        # Look for A-D in the first few characters
-        m = re.search(r"\b([A-D])\b", generated)
+        # Look for A-E in the first few characters
+        m = re.search(r"\b([A-E])\b", generated)
         if m:
             pred = ord(m.group(1)) - ord("A")
             if pred == label:
