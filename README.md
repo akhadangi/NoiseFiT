@@ -2,6 +2,8 @@
 
 This repository provides the implementation of **[NoiseFiT](https://arxiv.org/abs/2504.03302)** for hallucination-aware supervised fine-tuning of causal language models. NoiseFiT injects adaptive hidden-state noise into transformer layers and optimizes the model with clean supervision, clean-to-noisy alignment, and noisy-branch consistency.
 
+🌐 **Project website:** [https://noiseft.github.io/](https://noiseft.github.io/)
+
 ## Version 2 update
 
 The training entry point, `NoiseFiT.py`, now preserves the original manual SNR-layer NoiseFiT trainer while adding the second-version training stack. Use `--trainer_version v1` for the first-version trainer or the default `--trainer_version v2` for the updated auto/baseline stack. The v2 script supports:
