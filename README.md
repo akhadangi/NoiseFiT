@@ -1,5 +1,6 @@
 # NoiseFiT 
-🌐 To read our supplementary material please visit our project website here: [![Project Website](https://img.shields.io/badge/Project-Website-blue)](https://noiseft.github.io/)
+🌐 To read our supplementary material please visit our project website here: 
+[![Project Website](https://img.shields.io/badge/Project-Website-blue)](https://noiseft.github.io/)
 
 This repository provides the implementation of **[NoiseFiT](https://arxiv.org/abs/2504.03302)** for hallucination-aware supervised fine-tuning of causal language models. NoiseFiT injects adaptive hidden-state noise into transformer layers and optimizes the model with clean supervision, clean-to-noisy alignment, and noisy-branch consistency.
 
