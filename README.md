@@ -4,6 +4,9 @@ This repository provides the implementation of **[NoiseFiT](https://arxiv.org/ab
 
 🌐 **Project website:** [https://noiseft.github.io/](https://noiseft.github.io/)
 
+[![Project Website](https://img.shields.io/badge/Project-Website-blue)](https://noiseft.github.io/)
+
+
 ## Version 2 update
 
 The training entry point, `NoiseFiT.py`, now preserves the original manual SNR-layer NoiseFiT trainer while adding the second-version training stack. Use `--trainer_version v1` for the first-version trainer or the default `--trainer_version v2` for the updated auto/baseline stack. The v2 script supports:
