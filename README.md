@@ -7,8 +7,8 @@ This repository provides the implementation of **[NoiseFiT](https://arxiv.org/ab
 The training entry point, `NoiseFiT.py`, now preserves the original manual SNR-layer NoiseFiT trainer while adding the second-version training stack. Use `--trainer_version v1` for the first-version trainer or the default `--trainer_version v2` for the updated auto/baseline stack. The v2 script supports:
 
 - **BaseFiT**: clean supervised fine-tuning baseline.
-- **NEFTune**: embedding-noise baseline with configurable `--neftune_alpha`.
-- **R-Drop**: two-pass dropout consistency baseline with configurable KL weight and dropout.
+- **[NEFTune](https://proceedings.iclr.cc/paper_files/paper/2024/hash/4bdeeaeb380b35302bbda1823d328c22-Abstract-Conference.html)**: embedding-noise baseline with configurable `--neftune_alpha`.
+- **[R-Drop](https://proceedings.neurips.cc/paper/2021/hash/5a66b9200f29ac3fa0ae244cc2a51b39-Abstract.html)**: two-pass dropout consistency baseline with configurable KL weight and dropout.
 - **Auto NoiseFiT**: automatically calibrates noise layers and per-layer noise scales from the training data.
 - **Prefix Auto NoiseFiT**: optional prefix sharing for the full NoiseFiT objective to avoid recomputing deterministic early layers before the first noisy layer.
 - **NoiseFiT loss ablations**: `ce_noisy`, `ce_kl`, `kl_only`, and `consistency_only`.
