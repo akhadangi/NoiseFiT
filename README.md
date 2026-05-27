@@ -286,3 +286,19 @@ The repository includes:
 - `hallu_eval.py`
 
 These scripts are kept for downstream evaluation workflows and can be adapted to compare BaseFiT, NEFTune, R-Drop, Auto NoiseFiT, Prefix Auto NoiseFiT, and ablation runs.
+
+
+## Citation
+
+If you use NoiseFiT in your research, please cite our work:
+
+```bibtex
+@misc{khadangi2025noiseaugmentedfinetuning,
+      title={Noise Augmented Fine Tuning for Mitigating Hallucinations in Large Language Models}, 
+      author={Afshin Khadangi and Amir Sartipi and Igor Tchappi and Ramin Bahmani},
+      year={2025},
+      eprint={2504.03302},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2504.03302}, 
+}
